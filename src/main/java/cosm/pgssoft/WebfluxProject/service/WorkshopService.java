@@ -41,12 +41,13 @@ public class WorkshopService {
                     Optional.ofNullable(workshop.getRoom()).ifPresent(original::setRoom);
                     Optional.ofNullable(workshop.isRemote()).ifPresent(original::setRemote);
                     return original;
-                }).flatMap(reactiveWorkshopRepository::save)).orElse(null);
+                }).flatMap(reactiveWorkshopRepository::save)).orElse(Mono.empty());
     }
 
 
     public void deleteWorkshopById(final String id) {
-        reactiveWorkshopRepository.deleteById(id);
+        reactiveWorkshopRepository.deleteById(id).subscribe();
     }
+
 
 }
