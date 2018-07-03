@@ -31,17 +31,8 @@ public class WorkshopService {
     }
 
     public Mono<Workshop> updateWorkshop(String id, final Workshop workshop) {
-
-        return Optional.ofNullable(id).map(projectId ->
-                reactiveWorkshopRepository.findById(id).map(original -> {
-                    Optional.ofNullable(workshop.getNumber()).ifPresent(original::setNumber);
-                    Optional.ofNullable(workshop.getOffice()).ifPresent(original::setOffice);
-                    Optional.ofNullable(workshop.getParticipantsNumber()).ifPresent(original::setParticipantsNumber);
-                    Optional.ofNullable(workshop.getPresenter()).ifPresent(original::setPresenter);
-                    Optional.ofNullable(workshop.getRoom()).ifPresent(original::setRoom);
-                    Optional.ofNullable(workshop.isRemote()).ifPresent(original::setRemote);
-                    return original;
-                }).flatMap(reactiveWorkshopRepository::save)).orElse(Mono.empty());
+        workshop.setId(id);
+        return reactiveWorkshopRepository.save(workshop);
     }
 
 
@@ -50,4 +41,18 @@ public class WorkshopService {
     }
 
 
+    public Mono<Workshop> addParticipant(String id, String participant) {
+        return reactiveWorkshopRepository.findById(id).map(original -> {
+            original.getParticipants().add(participant);
+            return original;
+        }).flatMap(reactiveWorkshopRepository::save);
+    }
+
+
+    public Mono<Workshop> deleteParticipant(String id, String participant) {
+        return reactiveWorkshopRepository.findById(id).map(original -> {
+            original.getParticipants().remove(participant);
+            return original;
+        }).flatMap(reactiveWorkshopRepository::save);
+    }
 }

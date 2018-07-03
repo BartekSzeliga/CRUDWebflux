@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/workshop")
 public class WorkshopController {
@@ -41,6 +43,16 @@ public class WorkshopController {
     @DeleteMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void deleteWorkshop(@PathVariable(value = "id") String id) {
         workshopService.deleteWorkshopById(id);
+    }
+
+    @PutMapping(value = "addParticipant/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public Mono<Workshop> addParticipant(@PathVariable(value = "id") String id, @RequestBody final String participant) {
+        return workshopService.addParticipant(id, participant);
+    }
+
+    @PutMapping(value = "deleteParticipant/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public Mono<Workshop> deleteParticipant(@PathVariable(value = "id") String id, @RequestBody final String participant) {
+        return workshopService.deleteParticipant(id, participant);
     }
 
 }

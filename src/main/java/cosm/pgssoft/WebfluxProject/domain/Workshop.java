@@ -3,6 +3,8 @@ package cosm.pgssoft.WebfluxProject.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document
 public class Workshop {
 
@@ -12,7 +14,7 @@ public class Workshop {
     private String office;
     private String room;
     private boolean remote;
-    private Integer participantsNumber;
+    private List<String> participants;
     private Integer number;
 
     public String getId() {
@@ -56,12 +58,12 @@ public class Workshop {
         this.remote = remote;
     }
 
-    public Integer getParticipantsNumber() {
-        return participantsNumber;
+    public List<String> getParticipants() {
+        return participants;
     }
 
-    public void setParticipantsNumber(Integer participantsNumber) {
-        this.participantsNumber = participantsNumber;
+    public void setParticipants(List<String> participants) {
+        this.participants = participants;
     }
 
     public Integer getNumber() {
